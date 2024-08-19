@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        #menu, #game {
+            display: none;
+            text-align: center;
+        }
+        #menu {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #menu h1, #menu p {
+            margin: 10px;
+        }
+        #board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: #fff;
+            border: 2px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            cursor: pointer;
+        }
+        #scoreboard {
+            margin-bottom: 20px;
+        }
+        #difficulty {
+            margin-bottom: 20px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="menu">
+        <h1>Tic Tac Toe</h1>
+        <p>Geliştirici: Abdurrahman</p>
+        <button id="startGame">Oyuna Başla</button>
+        <div>
+            <p>Sosyal Medya:</p>
+             <a href="https://instagram.com/glkc.apo" target="_blank">Instagram</a>
+        </div>
+    </div>
+    <div id="game">
+        <div id="difficulty">
+            <label for="difficulty-select">Zorluk Seviyesi:</label>
+            <select id="difficulty-select">
+                <option value="easy">Kolay</option>
+                <option value="medium">Orta</option>
+                <option value="hard">Zor</option>
+            </select>
+        </div>
+        <div id="scoreboard">
+            <p>Oyuncu X Kazandı: <span id="playerXWins">0</span></p>
+            <p>Oyuncu O Kazandı: <span id="playerOWins">0</span></p>
+            <p>Beraberlik: <span id="ties">0</span></p>
+        </div>
+        <div id="board"></div>
+    </div>
+    <script src="tictactoe.js"></script>
+</body>
+</html>
