@@ -1,6 +1,7 @@
 const menu = document.getElementById("menu");
 const game = document.getElementById("game");
 const startGameButton = document.getElementById("startGame");
+const startAiModeButton = document.getElementById("startAiMode");
 
 const board = document.getElementById("board");
 const playerXWinsElement = document.getElementById("playerXWins");
@@ -13,6 +14,7 @@ let currentPlayer = "X";
 let playerXWins = 0;
 let playerOWins = 0;
 let ties = 0;
+let mode = "ai"; // Varsayılan olarak yapay zeka modunda
 
 const winningCombinations = [
     [0, 1, 2],
@@ -27,6 +29,15 @@ const winningCombinations = [
 
 // Oyuna başla butonuna tıklama işleyicisi
 startGameButton.addEventListener("click", () => {
+    mode = "twoPlayer";
+    menu.style.display = "none";
+    game.style.display = "block";
+    createBoard();
+});
+
+// Yapay zeka ile oyna butonuna tıklama işleyicisi
+startAiModeButton.addEventListener("click", () => {
+    mode = "ai";
     menu.style.display = "none";
     game.style.display = "block";
     createBoard();
@@ -48,28 +59,43 @@ function createBoard() {
 // Hücreye tıklama işleyicisi
 function onCellClick(event) {
     const index = event.target.dataset.index;
-    if (gameBoard[index] === "" && currentPlayer === "X") {
+    if (gameBoard[index] === "" && (mode === "twoPlayer" || currentPlayer === "X")) {
         gameBoard[index] = currentPlayer;
-        currentPlayer = "O";
-        createBoard();
-        if (!checkWin(gameBoard, "X") && !checkTie()) {
-            setTimeout(() => {
-                aiMove();
-                createBoard();
-                if (checkWin(gameBoard, "O")) {
-                    playerOWins++;
-                    playerOWinsElement.innerText = playerOWins;
-                } else if (checkTie()) {
-                    ties++;
-                    tiesElement.innerText = ties;
-                }
-            }, 500);
-        } else if (checkWin(gameBoard, "X")) {
-            playerXWins++;
-            playerXWinsElement.innerText = playerXWins;
-        } else if (checkTie()) {
-            ties++;
-            tiesElement.innerText = ties;
+        if (mode === "ai") {
+            currentPlayer = "O";
+            createBoard();
+            if (!checkWin(gameBoard, "X") && !checkTie()) {
+                setTimeout(() => {
+                    aiMove();
+                    createBoard();
+                    if (checkWin(gameBoard, "O")) {
+                        playerOWins++;
+                        playerOWinsElement.innerText = playerOWins;
+                    } else if (checkTie()) {
+                        ties++;
+                        tiesElement.innerText = ties;
+                    }
+                }, 500);
+            } else if (checkWin(gameBoard, "X")) {
+                playerXWins++;
+                playerXWinsElement.innerText = playerXWins;
+            } else if (checkTie()) {
+                ties++;
+                tiesElement.innerText = ties;
+            }
+        } else {
+            currentPlayer = (currentPlayer === "X") ? "O" : "X";
+            createBoard();
+            if (checkWin(gameBoard, "X")) {
+                playerXWins++;
+                playerXWinsElement.innerText = playerXWins;
+            } else if (checkWin(gameBoard, "O")) {
+                playerOWins++;
+                playerOWinsElement.innerText = playerOWins;
+            } else if (checkTie()) {
+                ties++;
+                tiesElement.innerText = ties;
+            }
         }
     }
 }
